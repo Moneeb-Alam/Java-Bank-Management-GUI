@@ -22,5 +22,5 @@ A desktop GUI application built using Core Java and Java Swing. This project cur
 * **Cash Transactions:** Interactive panels for deposits and withdrawals with real-time balance calculations.
 * **Data Persistence:** Uses safe file rewriting techniques to prevent data corruption or loss during operations.
 
-## 🚀 Future Roadmap
+##  Future Roadmap
 * Migrate data storage from standard File Handling to a **MySQL Database**.
