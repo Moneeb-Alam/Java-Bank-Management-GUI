@@ -1,6 +1,7 @@
 package bank;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
@@ -8,7 +9,8 @@ import java.io.*;
 
 public class Signup extends JPanel implements ActionListener {
     JLabel lTitle, lName, lFName, lCnic, lDob, lGender, lProvince;
-    JTextField tfName, tfFName, tfCnic;
+    JTextField tfName, tfFName;
+    JFormattedTextField tfCnic;
     JComboBox<String> cbDate, cbMonth, cbYear, cbProvince;
     JRadioButton rbMale, rbFemale;
     ButtonGroup genderGroup;
@@ -57,13 +59,14 @@ public class Signup extends JPanel implements ActionListener {
         lCnic.setBounds(150, 190, 150, 30);
         add(lCnic);
 
-        tfCnic = new JTextField();
+        try {
+            MaskFormatter cnicMask = new MaskFormatter("#####-#######-#");
+            cnicMask.setPlaceholderCharacter('_');
+            tfCnic = new JFormattedTextField(cnicMask);
+        } catch (Exception e) {
+            tfCnic = new JFormattedTextField();
+        }
         tfCnic.setBounds(300, 190, 250, 30);
-        tfCnic.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) {
-                if (!Character.isDigit(e.getKeyChar()) || tfCnic.getText().length() >= 13) e.consume();
-            }
-        });
         add(tfCnic);
 
         lDob = new JLabel("Date of Birth:");
@@ -132,12 +135,13 @@ public class Signup extends JPanel implements ActionListener {
         } else if (ae.getSource() == bSubmit) {
             String name = tfName.getText();
             String fname = tfFName.getText();
-            String cnic = tfCnic.getText();
+            String cnic = tfCnic.getText().replace("_", "");
             String dob = cbDate.getSelectedItem() + "-" + cbMonth.getSelectedItem() + "-" + cbYear.getSelectedItem();
             String gender = rbMale.isSelected() ? "Male" : (rbFemale.isSelected() ? "Female" : "");
             String province = (String) cbProvince.getSelectedItem();
 
-            if (name.equals("") || fname.equals("") || cnic.length() != 13 || gender.equals("")) {
+
+            if (name.equals("") || fname.equals("") || cnic.length() != 15 || gender.equals("")) {
                 JOptionPane.showMessageDialog(null, "Please fill all fields correctly!");
             } else {
                 try {
@@ -170,9 +174,23 @@ public class Signup extends JPanel implements ActionListener {
                     pw.println(cardNo + "," + pin + "," + name + "," + fname + "," + cnic + "," + dob + "," + gender + "," + province + "," + balance);
                     pw.flush(); pw.close();
 
-                    JOptionPane.showMessageDialog(null, "Account Created!\nCard Number: " + cardNo + "\nPIN: " + pin);
+                    JTextField cardField = new JTextField(cardNo);
+                    cardField.setEditable(false);
+                    cardField.setBackground(Color.WHITE);
 
-                    tfName.setText(""); tfFName.setText(""); tfCnic.setText("");
+                    JTextField pinField = new JTextField(pin);
+                    pinField.setEditable(false);
+                    pinField.setBackground(Color.WHITE);
+
+                    Object[] message = {
+                            "Account Created Successfully!",
+                            "Card Number: ", cardField,
+                            "PIN:", pinField
+                    };
+
+                    JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    tfName.setText(""); tfFName.setText(""); tfCnic.setValue(null);
                     cbDate.setSelectedIndex(0); cbMonth.setSelectedIndex(0); cbYear.setSelectedIndex(0); cbProvince.setSelectedIndex(0);
                     genderGroup.clearSelection();
 
