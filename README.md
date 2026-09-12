@@ -6,7 +6,7 @@ A desktop GUI application built using Core Java and Java Swing. This project cur
 
 <img width="835" height="642" alt="image" src="https://github.com/user-attachments/assets/6af78f83-ef9b-4513-9302-5072dd8d1254" />
 
-<img width="834" height="647" alt="image" src="https://github.com/user-attachments/assets/91dada1d-40d4-4e9c-b91f-9897194590d7" />
+<img width="833" height="637" alt="image" src="https://github.com/user-attachments/assets/8bf17254-2e82-40d3-a2a7-fb0363f3dd64" />
 
 <img width="837" height="648" alt="image" src="https://github.com/user-attachments/assets/8f90f0b0-f6d7-474b-b750-c3dea4bc41d3" />
 
